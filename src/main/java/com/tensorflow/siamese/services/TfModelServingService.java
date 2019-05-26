@@ -11,8 +11,8 @@ public interface TfModelServingService {
 
     void initializeGraph(Session sess, Path path);
 
-    List<Double> forwad(Session sess, ImagePlus Image);
+    List<Double> forward(Session sess, ImagePlus Image);
 
-    void closeSession();
+    void closeSession(Session sess);
 }
 

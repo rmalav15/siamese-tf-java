@@ -22,17 +22,17 @@ public class WriterRecognitionModelSerivce implements TfModelServingService {
     }
 
     @Override
-    public void initializeGraph(Session sess, Path checkpointPath) {
+    public void initializeGraph(Session session, Path checkpointPath) {
 
     }
 
     @Override
-    public List<Double> forwad(Session sess, ImagePlus Image) {
+    public List<Double> forward(Session session, ImagePlus Image) {
         return null;
     }
 
     @Override
-    public void closeSession() {
+    public void closeSession(Session session) {
 
     }
 }
