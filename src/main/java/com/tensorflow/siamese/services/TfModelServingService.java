@@ -1,18 +1,15 @@
 package com.tensorflow.siamese.services;
 
-import ij.ImagePlus;
-import org.tensorflow.Session;
+import org.tensorflow.Tensor;
 
-import java.nio.file.Path;
 import java.util.List;
 
 public interface TfModelServingService {
-    Session startSession();
 
-    void initializeGraph(Session sess, Path path);
+    void initializeGraph(String path);
 
-    List<Double> forward(Session sess, ImagePlus Image);
+    float[] forward(Tensor Image);
 
-    void closeSession(Session sess);
+    void closeGraph();
 }
 

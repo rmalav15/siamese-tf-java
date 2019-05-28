@@ -1,13 +1,14 @@
 package com.tensorflow.siamese.services.impl;
 
 import com.tensorflow.siamese.services.EmbeddingService;
+import com.tensorflow.siamese.services.ImageProcessingService;
 import com.tensorflow.siamese.services.TfModelServingService;
 import ij.ImagePlus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.tensorflow.Session;
+import org.tensorflow.Tensor;
 
-import java.nio.file.Path;
 import java.util.List;
 
 @Service
@@ -16,21 +17,30 @@ public class EmbeddingServiceImpl implements EmbeddingService {
     @Autowired
     private TfModelServingService tfModelServingService;
 
-    private Session session;
+    @Autowired
+    private ImageProcessingService imageProcessingService;
+
+    @Value("${tensorflow.model.path:builder_model}")
+    private String path;
+
+    @Value("${tensorflow.model.input.size:224}")
+    private int imageSize;
 
     @Override
-    public void startService(Path path) {
-        session = tfModelServingService.startSession();
-        tfModelServingService.initializeGraph(session, path);
+    public void startService() {
+        tfModelServingService.initializeGraph(path);
     }
 
     @Override
     public List<Double> getEmbeddings(ImagePlus image) {
-        return tfModelServingService.forward(session, image);
+        ImagePlus resImage = imageProcessingService.resizeImage(image, imageSize);
+        Tensor imageTensor = imageProcessingService.converToTensor(resImage);
+        return tfModelServingService.forward(imageTensor);
     }
+
 
     @Override
     public void closeService() {
-        tfModelServingService.closeSession(session);
+        tfModelServingService.closeGraph();
     }
 }

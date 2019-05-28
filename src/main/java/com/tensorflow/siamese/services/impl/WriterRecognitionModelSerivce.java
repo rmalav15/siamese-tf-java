@@ -1,38 +1,45 @@
 package com.tensorflow.siamese.services.impl;
 
 import com.tensorflow.siamese.services.TfModelServingService;
-import ij.ImagePlus;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.tensorflow.Graph;
+import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Session;
+import org.tensorflow.Tensor;
 
-import java.nio.file.Path;
-import java.util.List;
+import java.nio.FloatBuffer;
 
 @Service
 @Slf4j
 public class WriterRecognitionModelSerivce implements TfModelServingService {
 
-    private Graph graph;
+    private Session session;
+
+    @Value("${tensorflow.model.emb.size:128}")
+    private int embSize;
 
     @Override
-    public Session startSession() {
-        return null;
+    public void initializeGraph(String path) {
+        SavedModelBundle modelBundle = SavedModelBundle.load(path, "serve");
+        session = modelBundle.session();
     }
 
     @Override
-    public void initializeGraph(Session session, Path checkpointPath) {
-
+    public float[] forward(Tensor images) {
+        Tensor embTensor = session.runner()
+                .fetch("embeddings")
+                .feed("input_images", images)
+                .run().get(0);
+        FloatBuffer floatBuffer = FloatBuffer.allocate(embSize);
+        embTensor.writeTo(floatBuffer);
+        return floatBuffer.array();
     }
+
 
     @Override
-    public List<Double> forward(Session session, ImagePlus Image) {
-        return null;
+    public void closeGraph() {
+        session.close();
     }
 
-    @Override
-    public void closeSession(Session session) {
-
-    }
 }

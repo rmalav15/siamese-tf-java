@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EmbeddingService {
 
-    void startService(Path path);
+    void startService();
 
     List<Double> getEmbeddings(ImagePlus image);
 

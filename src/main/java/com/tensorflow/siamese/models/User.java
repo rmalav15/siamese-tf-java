@@ -3,6 +3,9 @@ package com.tensorflow.siamese.models;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -21,6 +24,7 @@ public class User {
 
     @Id
     @GeneratedValue
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @NonNull
     private UUID id;
 
@@ -33,7 +37,9 @@ public class User {
     private String embedding;
 
     @NonNull
+    @CreatedDate
     private Instant created;
 
+    @LastModifiedDate
     private Instant modified;
 }
