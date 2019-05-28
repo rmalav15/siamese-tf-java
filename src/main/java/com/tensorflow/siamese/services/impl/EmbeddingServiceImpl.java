@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.tensorflow.Tensor;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 @Service
 public class EmbeddingServiceImpl implements EmbeddingService {
@@ -35,7 +37,8 @@ public class EmbeddingServiceImpl implements EmbeddingService {
     public List<Double> getEmbeddings(ImagePlus image) {
         ImagePlus resImage = imageProcessingService.resizeImage(image, imageSize);
         Tensor imageTensor = imageProcessingService.converToTensor(resImage);
-        return tfModelServingService.forward(imageTensor);
+        double[] embeddings = tfModelServingService.forward(imageTensor);
+        return DoubleStream.of(embeddings).boxed().collect(Collectors.toList());
     }
 
 

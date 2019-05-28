@@ -8,6 +8,7 @@ import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 
+import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
 @Service
@@ -26,14 +27,14 @@ public class WriterRecognitionModelSerivce implements TfModelServingService {
     }
 
     @Override
-    public float[] forward(Tensor images) {
+    public double[] forward(Tensor images) {
         Tensor embTensor = session.runner()
                 .fetch("embeddings")
                 .feed("input_images", images)
                 .run().get(0);
-        FloatBuffer floatBuffer = FloatBuffer.allocate(embSize);
-        embTensor.writeTo(floatBuffer);
-        return floatBuffer.array();
+        DoubleBuffer doubleBuffer = DoubleBuffer.allocate(embSize);
+        embTensor.writeTo(doubleBuffer);
+        return doubleBuffer.array();
     }
 
 
