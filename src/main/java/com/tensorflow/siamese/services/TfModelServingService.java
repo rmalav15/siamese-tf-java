@@ -8,7 +8,7 @@ public interface TfModelServingService {
 
     void initializeGraph(String path);
 
-    double[] forward(Tensor Image);
+    float[] forward(Tensor Image);
 
     void closeGraph();
 }

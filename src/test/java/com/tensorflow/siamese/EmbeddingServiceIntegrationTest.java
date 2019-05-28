@@ -33,7 +33,7 @@ public class EmbeddingServiceIntegrationTest {
     @Test
     public void whenZeroImageEmbeddingShouldBeZero() {
         Opener opener = new Opener();
-        String imageFilePath = "Images/test.png";
+        String imageFilePath = "src/main/resources/Images/test.png";
         ImagePlus img = opener.openImage(imageFilePath);
         List<Double> embeddings = embeddingService.getEmbeddings(img);
         System.out.println(embeddings);

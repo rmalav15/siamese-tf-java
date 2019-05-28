@@ -27,14 +27,14 @@ public class WriterRecognitionModelSerivce implements TfModelServingService {
     }
 
     @Override
-    public double[] forward(Tensor images) {
+    public float[] forward(Tensor images) {
         Tensor embTensor = session.runner()
                 .fetch("embeddings")
                 .feed("input_images", images)
                 .run().get(0);
-        DoubleBuffer doubleBuffer = DoubleBuffer.allocate(embSize);
-        embTensor.writeTo(doubleBuffer);
-        return doubleBuffer.array();
+        FloatBuffer floatBuffer = FloatBuffer.allocate(embSize);
+        embTensor.writeTo(floatBuffer);
+        return floatBuffer.array();
     }
 
 
