@@ -1,5 +1,7 @@
 package com.tensorflow.siamese.services.impl;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import com.tensorflow.siamese.services.TfModelServingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +10,6 @@ import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 
-import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
 @Service
@@ -28,6 +29,7 @@ public class WriterRecognitionModelSerivce implements TfModelServingService {
 
     @Override
     public float[] forward(Tensor images) {
+        Preconditions.checkNotNull(session, "Session cant be null");
         Tensor embTensor = session.runner()
                 .fetch("embeddings")
                 .feed("input_images", images)
@@ -40,7 +42,10 @@ public class WriterRecognitionModelSerivce implements TfModelServingService {
 
     @Override
     public void closeGraph() {
-        session.close();
+        Optional<Session> optSession = Optional.fromNullable(session);
+        if (optSession.isPresent()) {
+            session.close();
+        }
     }
 
 }
