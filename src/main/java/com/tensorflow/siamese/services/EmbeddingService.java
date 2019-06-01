@@ -9,7 +9,7 @@ public interface EmbeddingService {
 
     void startService();
 
-    List<Double> getEmbeddings(ImagePlus image);
+    List<Double> getEmbeddings(Path imagePath);
 
     void closeService();
 }

@@ -3,8 +3,12 @@ package com.tensorflow.siamese.services;
 import ij.ImagePlus;
 import org.tensorflow.Tensor;
 
+import java.nio.file.Path;
+
 public interface ImageProcessingService {
     ImagePlus resizeImage(ImagePlus image, int size);
 
     Tensor converToTensor(ImagePlus image);
+
+    /*Tensor TfReadandResizeImage(Path imagePath, int size);*/
 }

@@ -6,7 +6,6 @@ import com.tensorflow.siamese.services.TfModelServingService;
 import com.tensorflow.siamese.services.impl.EmbeddingServiceImpl;
 import com.tensorflow.siamese.services.impl.ImageProcessingServiceImpl;
 import com.tensorflow.siamese.services.impl.WriterRecognitionModelSerivce;
-import ij.ImagePlus;
 import ij.io.Opener;
 import org.junit.After;
 import org.junit.Before;
@@ -17,6 +16,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.nio.file.Paths;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -34,8 +34,7 @@ public class EmbeddingServiceIntegrationTest {
     public void whenZeroImageEmbeddingShouldBeZero() {
         Opener opener = new Opener();
         String imageFilePath = "src/main/resources/Images/test.png";
-        ImagePlus img = opener.openImage(imageFilePath);
-        List<Double> embeddings = embeddingService.getEmbeddings(img);
+        List<Double> embeddings = embeddingService.getEmbeddings(Paths.get(imageFilePath));
         System.out.println(embeddings);
     }
 

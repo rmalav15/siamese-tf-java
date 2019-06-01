@@ -10,7 +10,9 @@ import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.FloatBuffer;
+import java.nio.file.Path;
 
 @Service
 @Slf4j
@@ -23,16 +25,26 @@ public class WriterRecognitionModelSerivce implements TfModelServingService {
 
     @Override
     public void initializeGraph(String path) {
-        SavedModelBundle modelBundle = SavedModelBundle.load(path, "serve");
-        session = modelBundle.session();
+        Optional<Session> optSession = Optional.fromNullable(session);
+        if (!optSession.isPresent()) {
+            SavedModelBundle modelBundle = SavedModelBundle.load(path, "serve");
+            session = modelBundle.session();
+        }
     }
 
+    //TODO: add batch process support
     @Override
-    public float[] forward(Tensor images) {
+    public float[] forward(Path imagePath) {
         Preconditions.checkNotNull(session, "Session cant be null");
+        Tensor<String> imagePathTenosr = null;
+        try {
+            imagePathTenosr = Tensor.create(imagePath.toString().getBytes("UTF-8"), String.class);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         Tensor embTensor = session.runner()
                 .fetch("embeddings")
-                .feed("input_images", images)
+                .feed("image_path_tensors", imagePathTenosr)
                 .run().get(0);
         FloatBuffer floatBuffer = FloatBuffer.allocate(embSize);
         embTensor.writeTo(floatBuffer);

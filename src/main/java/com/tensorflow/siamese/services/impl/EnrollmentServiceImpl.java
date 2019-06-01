@@ -7,12 +7,16 @@ import com.tensorflow.siamese.models.User;
 import com.tensorflow.siamese.repositories.UserRepository;
 import com.tensorflow.siamese.services.EmbeddingService;
 import com.tensorflow.siamese.services.EnrollmentService;
-import ij.ImagePlus;
+import javassist.NotFoundException;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +34,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     private EmbeddingService embeddingService;
 
     @Override
-    public void enrollNew(List<ImagePlus> images, String name) throws JsonProcessingException {
+    public void enrollNew(@NonNull List<Path> images, @NonNull String name) throws JsonProcessingException, FileNotFoundException {
+        checkImagesExist(images);
         List<List<Double>> embeddingsList = images
                 .stream()
                 .map(image -> embeddingService.getEmbeddings(image))
@@ -48,8 +53,12 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 
     @Override
-    public void updateEnrolled(List<ImagePlus> images, UUID uuid) throws IOException {
+    public void updateEnrolled(@NonNull List<Path> images, @NonNull UUID uuid) throws Exception {
+        checkImagesExist(images);
         User user = userRepository.getOne(uuid);
+        if (null == user) {
+            throw new Exception("user doesnt exist");
+        }
         int savedNumImage = user.numImages();
         int extraImagesNum = images.size();
 
@@ -68,6 +77,15 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                         , embedding, extraImagesNum)));
         userRepository.save(user);
         log.info("updated user: " + user.id());
+    }
+
+    private void checkImagesExist(List<Path> images) throws FileNotFoundException {
+        for (Path imagePath : images) {
+            File f = new File(imagePath.toUri());
+            if (!(f.exists() && !f.isDirectory())) {
+                throw new FileNotFoundException(imagePath.toString());
+            }
+        }
     }
 
     private List<Double> weightedMean(List<Double> emb1, int w1, List<Double> emb2, int w2) {

@@ -4,12 +4,11 @@ import com.google.common.base.Preconditions;
 import com.tensorflow.siamese.services.EmbeddingService;
 import com.tensorflow.siamese.services.ImageProcessingService;
 import com.tensorflow.siamese.services.TfModelServingService;
-import ij.ImagePlus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.tensorflow.Tensor;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -35,11 +34,11 @@ public class EmbeddingServiceImpl implements EmbeddingService {
     }
 
     @Override
-    public List<Double> getEmbeddings(ImagePlus image) {
-        Preconditions.checkNotNull(image, "Image is null.");
-        ImagePlus resImage = imageProcessingService.resizeImage(image, imageSize);
-        Tensor imageTensor = imageProcessingService.converToTensor(resImage);
-        float[] embeddings = tfModelServingService.forward(imageTensor);
+    public List<Double> getEmbeddings(Path imagePath) {
+        Preconditions.checkNotNull(imagePath, "Image is null.");
+        /*ImagePlus resImage = imageProcessingService.resizeImage(image, imageSize);
+        Tensor imageTensor = imageProcessingService.converToTensor(resImage);*/
+        float[] embeddings = tfModelServingService.forward(imagePath);
         return IntStream.range(0, embeddings.length)
                 .mapToDouble(i -> embeddings[i])
                 .boxed()

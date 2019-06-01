@@ -1,14 +1,12 @@
 package com.tensorflow.siamese.services;
 
-import org.tensorflow.Tensor;
-
-import java.util.List;
+import java.nio.file.Path;
 
 public interface TfModelServingService {
 
     void initializeGraph(String path);
 
-    float[] forward(Tensor Image);
+    float[] forward(Path imagePath);
 
     void closeGraph();
 }
