@@ -6,7 +6,6 @@ import com.tensorflow.siamese.services.TfModelServingService;
 import com.tensorflow.siamese.services.impl.EmbeddingServiceImpl;
 import com.tensorflow.siamese.services.impl.ImageProcessingServiceImpl;
 import com.tensorflow.siamese.services.impl.WriterRecognitionModelSerivce;
-import ij.io.Opener;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +31,6 @@ public class EmbeddingServiceIntegrationTest {
 
     @Test
     public void whenZeroImageEmbeddingShouldBeZero() {
-        Opener opener = new Opener();
         String imageFilePath = "src/main/resources/Images/test.png";
         List<Double> embeddings = embeddingService.getEmbeddings(Paths.get(imageFilePath));
         System.out.println(embeddings);
