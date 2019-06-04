@@ -1,13 +1,13 @@
 import React from 'react';
-import {NavTab} from './NavTab';
+import HeaderComponent from './Components/HeaderComponent'
+import NavTabComponent from './Components/NavTabComponent';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     return (
-        <div className="App">
-            <h3 className="text-center">TF-Java: Signature Recognition App</h3>
-            <NavTab className="NavTab shadow"/>
+        <div className='App'>
+            <HeaderComponent/>
+            <NavTabComponent/>
         </div>
     );
 }
