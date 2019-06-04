@@ -1,8 +1,7 @@
 import React from 'react'
-import {Button, Form, Segment, Table} from 'semantic-ui-react'
 import axios from 'axios';
 
-export default class EnrollementContainer extends React.Component {
+export default class EnrollmentContainer extends React.Component {
 
     constructor(props) {
         super(props);
@@ -23,13 +22,18 @@ export default class EnrollementContainer extends React.Component {
     }
 
     onChange(e) {
-        this.setState({file: e.target.files[0]});
+        this.setState({file: e.target.files});
     }
 
     fileUpload(file) {
-        const url = 'http://example.com/file-upload';
+        const url = 'http://localhost:8080/enroll/new';
         const formData = new FormData();
-        formData.append('file', file);
+        if(file) {
+            for (const image of file) {
+                formData.append('files', image);
+            }
+        }
+        formData.append('name', 'name');
         const config = {
             headers: {
                 'content-type': 'multipart/form-data'
@@ -42,7 +46,7 @@ export default class EnrollementContainer extends React.Component {
         return (
             <form onSubmit={this.onFormSubmit}>
                 <h1>File Upload</h1>
-                <input type="file" onChange={this.onChange}/>
+                <input multiple type="file" onChange={this.onChange}/>
                 <button type="submit">Upload</button>
             </form>
         )
@@ -50,6 +54,7 @@ export default class EnrollementContainer extends React.Component {
 
 }
 
+/*
 class EnrollmentForm extends React.Component {
 
     render() {
@@ -61,7 +66,7 @@ class EnrollmentForm extends React.Component {
                         <Form.Input fluid type="text" label='Name' placeholder='Name'/>
                         <Form.Input fluid type="file" onChange={this.props.onChange}/>
                     </Form.Group>
-                    {/*<Form.Checkbox label='I agree to the Terms and Conditions'/>*/}
+                    {/!*<Form.Checkbox label='I agree to the Terms and Conditions'/>*!/}
                     <Button type='submit'>Submit</Button>
                 </Form>
             </Segment>
@@ -100,19 +105,9 @@ class EnrollmentSummary extends React.Component {
                             <Table.Cell>Approved</Table.Cell>
                             <Table.Cell>None</Table.Cell>
                         </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>Jamie</Table.Cell>
-                            <Table.Cell>Approved</Table.Cell>
-                            <Table.Cell>Requires call</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>Jill</Table.Cell>
-                            <Table.Cell>Denied</Table.Cell>
-                            <Table.Cell>None</Table.Cell>
-                        </Table.Row>
                     </Table.Body>
                 </Table>
             </Segment>
         )
     }
-}
+}*/

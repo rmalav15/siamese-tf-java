@@ -1,26 +1,27 @@
-import React, { Component } from 'react'
-import { Menu } from 'semantic-ui-react'
+import React, {Component} from 'react'
+import {Menu} from 'semantic-ui-react'
 
 export default class NavTabComponent extends Component {
-    state = { activeItem: 'user' }
+    /*constructor(props) {
+        super(props);
+    }*/
 
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     render() {
-        const { activeItem } = this.state
+        const {activeItem} = this.props;
 
         return (
             <Menu inverted pointing vertical>
-                <Menu.Item name='User List' active={activeItem === 'user'} onClick={this.handleItemClick} />
+                <Menu.Item name='User List' active={activeItem === 'User List'} onClick={this.props.handleItemClick}/>
                 <Menu.Item
                     name='Enroll'
-                    active={activeItem === 'enroll'}
-                    onClick={this.handleItemClick}
+                    active={activeItem === 'Enroll'}
+                    onClick={this.props.handleItemClick}
                 />
                 <Menu.Item
                     name='Recognize'
-                    active={activeItem === 'recog'}
-                    onClick={this.handleItemClick}
+                    active={activeItem === 'Recognize'}
+                    onClick={this.props.handleItemClick}
                 />
             </Menu>
         )
