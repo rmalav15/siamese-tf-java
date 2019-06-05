@@ -1,6 +1,7 @@
 package com.tensorflow.siamese.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.tensorflow.siamese.models.User;
 import ij.ImagePlus;
 import javassist.NotFoundException;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EnrollmentService {
-    void enrollNew(List<Path> images, String name) throws JsonProcessingException, FileNotFoundException;
+    User enrollNew(List<Path> images, String name) throws JsonProcessingException, FileNotFoundException;
 
-    void updateEnrolled(List<Path> images, UUID uuid) throws Exception;
+    User updateEnrolled(List<Path> images, UUID uuid) throws Exception;
 }

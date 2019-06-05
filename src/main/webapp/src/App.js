@@ -27,7 +27,7 @@ class App extends React.Component {
                 <HeaderComponent/>
                 <Segment.Group horizontal>
                     <Segment><NavTabComponent activeItem={activeState}
-                                              handleItemClick={this.handleItemClick}/></Segment>
+                                                         handleItemClick={this.handleItemClick}/></Segment>
                     <Segment><ViewComponent activeState={activeState}/></Segment>
                 </Segment.Group>
             </div>

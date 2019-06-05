@@ -34,7 +34,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     private EmbeddingService embeddingService;
 
     @Override
-    public void enrollNew(@NonNull List<Path> images, @NonNull String name) throws JsonProcessingException, FileNotFoundException {
+    public User enrollNew(@NonNull List<Path> images, @NonNull String name) throws JsonProcessingException, FileNotFoundException {
         checkImagesExist(images);
         List<List<Double>> embeddingsList = images
                 .stream()
@@ -49,11 +49,12 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .embedding(objectMapper.writeValueAsString(embedding));
         userRepository.save(user);
         log.info("created new user: " + user.id());
+        return user;
     }
 
 
     @Override
-    public void updateEnrolled(@NonNull List<Path> images, @NonNull UUID uuid) throws Exception {
+    public User updateEnrolled(@NonNull List<Path> images, @NonNull UUID uuid) throws Exception {
         checkImagesExist(images);
         User user = userRepository.getOne(uuid);
         if (null == user) {
@@ -77,6 +78,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                         , embedding, extraImagesNum)));
         userRepository.save(user);
         log.info("updated user: " + user.id());
+        return user;
     }
 
     private void checkImagesExist(List<Path> images) throws FileNotFoundException {

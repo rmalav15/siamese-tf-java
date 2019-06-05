@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.tensorflow.siamese.services.EmbeddingService;
 import com.tensorflow.siamese.services.ImageProcessingService;
 import com.tensorflow.siamese.services.TfModelServingService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Slf4j
 @Service
 public class EmbeddingServiceImpl implements EmbeddingService {
 
@@ -22,7 +24,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
     @Autowired
     private ImageProcessingService imageProcessingService;
 
-    @Value("${tensorflow.model.path:src/main/resources/model-sign}")
+    @Value("${tensorflow.model.path:src/main/resources/model}")
     private String path;
 
     @Value("${tensorflow.model.input.size:224}")
@@ -35,6 +37,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
     @Override
     public List<Double> getEmbeddings(Path imagePath) {
+        startService();
         Preconditions.checkNotNull(imagePath, "Image is null.");
         /*ImagePlus resImage = imageProcessingService.resizeImage(image, imageSize);
         Tensor imageTensor = imageProcessingService.converToTensor(resImage);*/
