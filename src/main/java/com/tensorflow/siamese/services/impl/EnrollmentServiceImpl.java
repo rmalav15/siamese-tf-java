@@ -7,7 +7,6 @@ import com.tensorflow.siamese.models.User;
 import com.tensorflow.siamese.repositories.UserRepository;
 import com.tensorflow.siamese.services.EmbeddingService;
 import com.tensorflow.siamese.services.EnrollmentService;
-import javassist.NotFoundException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;

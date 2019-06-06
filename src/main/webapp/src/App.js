@@ -21,14 +21,21 @@ class App extends React.Component {
     render() {
 
         const {activeState} = this.state;
+        const w20style = {
+            width: '20%'
+        };
+
+        const w80style = {
+            width: '80%'
+        };
 
         return (
             <div className='App'>
                 <HeaderComponent/>
                 <Segment.Group horizontal>
-                    <Segment><NavTabComponent activeItem={activeState}
-                                                         handleItemClick={this.handleItemClick}/></Segment>
-                    <Segment><ViewComponent activeState={activeState}/></Segment>
+                    <Segment style={w20style}><NavTabComponent activeItem={activeState}
+                                                               handleItemClick={this.handleItemClick}/></Segment>
+                    <Segment style={w80style}><ViewComponent activeState={activeState}/></Segment>
                 </Segment.Group>
             </div>
 

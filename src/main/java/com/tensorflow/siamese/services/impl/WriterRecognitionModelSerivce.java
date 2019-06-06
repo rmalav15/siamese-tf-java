@@ -10,8 +10,8 @@ import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.FloatBuffer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 @Service
@@ -29,6 +29,7 @@ public class WriterRecognitionModelSerivce implements TfModelServingService {
         if (!optSession.isPresent()) {
             SavedModelBundle modelBundle = SavedModelBundle.load(path, "serve");
             session = modelBundle.session();
+            log.info("Starting TF session with model from: " + path);
         }
     }
 
@@ -36,15 +37,11 @@ public class WriterRecognitionModelSerivce implements TfModelServingService {
     @Override
     public float[] forward(Path imagePath) {
         Preconditions.checkNotNull(session, "Session cant be null");
-        Tensor<String> imagePathTenosr = null;
-        try {
-            imagePathTenosr = Tensor.create(imagePath.toString().getBytes("UTF-8"), String.class);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        Tensor<String> imagePathTensor = null;
+        imagePathTensor = Tensor.create(imagePath.toString().getBytes(StandardCharsets.UTF_8), String.class);
         Tensor embTensor = session.runner()
                 .fetch("embeddings")
-                .feed("image_path_tensors", imagePathTenosr)
+                .feed("image_path_tensors", imagePathTensor)
                 .run().get(0);
         FloatBuffer floatBuffer = FloatBuffer.allocate(embSize);
         embTensor.writeTo(floatBuffer);

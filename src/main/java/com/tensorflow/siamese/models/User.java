@@ -34,6 +34,7 @@ public class User {
 
     private int numImages;
 
+    @Column(columnDefinition = "TEXT")
     private String embedding;
 
     @NonNull

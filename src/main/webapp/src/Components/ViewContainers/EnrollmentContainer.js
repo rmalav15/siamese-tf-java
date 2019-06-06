@@ -44,7 +44,7 @@ export default class EnrollmentContainer extends React.Component {
         };
         axios.post(url, formData, config).then(
             response => {
-                this.setState({user: response});
+                this.setState({user: response.data});
                 this.setState({isTableDisabled: false});
             }
         ).catch(
@@ -59,7 +59,7 @@ export default class EnrollmentContainer extends React.Component {
             <Segment>
                 <EnrollmentForm onNameChange={this.onNameChange} onImageChange={this.onImageChange}
                                 onFormSubmit={this.onFormSubmit}/>
-                <EnrollmentSummary isTableDisabled={this.state.isTableDisabled}/>
+                <EnrollmentSummary user={this.state.user} isTableDisabled={this.state.isTableDisabled}/>
             </Segment>
         )
     }
@@ -90,7 +90,13 @@ class EnrollmentSummary extends React.Component {
 
     render() {
 
-
+        const {user} = this.props;
+        /*const wrapStyle = {
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            color: 'red'
+        };*/
         return (
             <Segment inverted>
                 <Table inverted>
@@ -104,9 +110,9 @@ class EnrollmentSummary extends React.Component {
 
                     <Table.Body>
                         <Table.Row disabled={this.props.isTableDisabled}>
-                            <Table.Cell>John</Table.Cell>
-                            <Table.Cell>Approved</Table.Cell>
-                            <Table.Cell>None</Table.Cell>
+                            <Table.Cell>{user ? user.name : "Enroll User" }</Table.Cell>
+                            <Table.Cell> {user? user.numImages: ""} </Table.Cell>
+                            <Table.Cell>{user ? user.embedding.substring(1, 35) + '...': ""}</Table.Cell>
                         </Table.Row>
                     </Table.Body>
                 </Table>

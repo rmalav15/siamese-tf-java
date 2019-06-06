@@ -2,7 +2,6 @@ package com.tensorflow.siamese.services.impl;
 
 import com.google.common.base.Preconditions;
 import com.tensorflow.siamese.services.EmbeddingService;
-import com.tensorflow.siamese.services.ImageProcessingService;
 import com.tensorflow.siamese.services.TfModelServingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
     @Autowired
     private TfModelServingService tfModelServingService;
 
-    @Autowired
-    private ImageProcessingService imageProcessingService;
-
-    @Value("${tensorflow.model.path:src/main/resources/model}")
+    @Value("${tensorflow.model.path:/src/main/resources/model}")
     private String path;
 
     @Value("${tensorflow.model.input.size:224}")
@@ -32,6 +28,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
     @Override
     public void startService() {
+        //String modePath = getClass().getResource(path).getPath();
         tfModelServingService.initializeGraph(path);
     }
 
@@ -39,8 +36,10 @@ public class EmbeddingServiceImpl implements EmbeddingService {
     public List<Double> getEmbeddings(Path imagePath) {
         startService();
         Preconditions.checkNotNull(imagePath, "Image is null.");
+
         /*ImagePlus resImage = imageProcessingService.resizeImage(image, imageSize);
         Tensor imageTensor = imageProcessingService.converToTensor(resImage);*/
+
         float[] embeddings = tfModelServingService.forward(imagePath);
         return IntStream.range(0, embeddings.length)
                 .mapToDouble(i -> embeddings[i])

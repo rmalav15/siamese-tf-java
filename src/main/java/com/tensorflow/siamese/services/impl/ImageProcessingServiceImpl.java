@@ -38,7 +38,7 @@ public class ImageProcessingServiceImpl implements ImageProcessingService {
 
     @Override
     public Tensor converToTensor(ImagePlus image) {
-        float imageArray[][][][] = convertToArray(image);
+        float[][][][] imageArray = convertToArray(image);
         Tensor imageTensor = Tensor.create(imageArray);
         return imageTensor;
     }
@@ -46,7 +46,7 @@ public class ImageProcessingServiceImpl implements ImageProcessingService {
     private float[][][][] convertToArray(ImagePlus image) {
         int height = image.getHeight();
         int width = image.getWidth();
-        float imageArray[][][][] = new float[1][height][width][3];
+        float[][][][] imageArray = new float[1][height][width][3];
 
         BufferedImage bufferedImage = toBufferedImage(image.getImage());
         // displayImage(bufferedImage);
