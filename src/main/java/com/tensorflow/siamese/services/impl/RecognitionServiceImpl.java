@@ -6,7 +6,7 @@ import com.tensorflow.siamese.models.User;
 import com.tensorflow.siamese.repositories.UserRepository;
 import com.tensorflow.siamese.services.EmbeddingService;
 import com.tensorflow.siamese.services.RecognitionService;
-import com.tensorflow.siamese.services.RecogntionResult;
+import com.tensorflow.siamese.services.RecognitionResult;
 import javafx.util.Pair;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class RecognitionServiceImpl implements RecognitionService {
     }
 
     @Override
-    public RecogntionResult recognise(@NonNull Path imagePath, @NonNull Double maxDistanceThr
+    public RecognitionResult recognise(@NonNull Path imagePath, @NonNull Double maxDistanceThr
             , @NonNull Double firstSecondMarginGap) throws Exception {
         List<User> allUsers = userRepository.findAll();
         if (null == allUsers) {
@@ -57,7 +57,7 @@ public class RecognitionServiceImpl implements RecognitionService {
             userMatches.add(new Pair<>(user, euclideanDistance(imageEmb, userEmb)));
         }
 
-        Collections.sort(userMatches, Comparator.comparing(p -> -p.getValue()));
+        Collections.sort(userMatches, Comparator.comparing(p -> p.getValue()));
         User bestMatch = null;
         double bestDistance = userMatches.get(0).getValue();
 
@@ -67,7 +67,7 @@ public class RecognitionServiceImpl implements RecognitionService {
             }
         }
 
-        return new RecogntionResult(userMatches, bestMatch);
+        return new RecognitionResult(userMatches, bestMatch);
     }
 
 

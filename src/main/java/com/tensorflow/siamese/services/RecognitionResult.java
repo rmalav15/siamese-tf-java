@@ -1,5 +1,6 @@
 package com.tensorflow.siamese.services;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.tensorflow.siamese.models.User;
 import javafx.util.Pair;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,8 @@ import java.util.List;
 @Accessors(fluent = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecogntionResult {
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public class RecognitionResult {
 
     List<Pair<User, Double>> userList;
 

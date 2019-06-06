@@ -1,6 +1,8 @@
 import React from 'react'
 import axios from 'axios'
 import {Button, Form, Icon, Segment, Table} from 'semantic-ui-react'
+import toastr from 'toastr'
+import 'toastr/build/toastr.min.css'
 
 export default class EnrollmentContainer extends React.Component {
 
@@ -28,6 +30,12 @@ export default class EnrollmentContainer extends React.Component {
     onFormSubmit(e) {
         e.preventDefault();// Stop form submit
 
+        toastr.options = {
+            positionClass : 'toast-top-right',
+            hideDuration: 10,
+            timeOut: 5000
+        };
+
         const url = 'http://localhost:8080/enroll/new';
         const formData = new FormData();
 
@@ -46,10 +54,11 @@ export default class EnrollmentContainer extends React.Component {
             response => {
                 this.setState({user: response.data});
                 this.setState({isTableDisabled: false});
+                toastr.success(`User ${this.state.name} enrolled`)
             }
         ).catch(
             error => {
-                console.log(error)
+                toastr.error(`Unable to enroll.`)
             }
         )
     }

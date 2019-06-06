@@ -56,7 +56,7 @@ export class UserContainer extends React.Component {
                     <Table.Body>
                         {users && users.map(
                             user => (
-                                <Table.Row>
+                                <Table.Row key={user.name}>
                                     <Table.Cell>{user.name} </Table.Cell>
                                     <Table.Cell> {user.numImages}</Table.Cell>
                                     <Table.Cell>{user.embedding.substring(1, 60) + '...'}</Table.Cell>
