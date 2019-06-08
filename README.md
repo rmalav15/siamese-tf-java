@@ -19,7 +19,7 @@ is integrated here. [[Tensorflow Model]](https://drive.google.com/file/d/1JnUSwW
 
 ## Getting Started
 
-Download the provide [Tensorflow model](https://drive.google.com/file/d/1JnUSwWPy1iHaFqLR1WRsqfH0yGiLleFs/view?usp=sharing)
+Download the provided [Tensorflow model](https://drive.google.com/file/d/1JnUSwWPy1iHaFqLR1WRsqfH0yGiLleFs/view?usp=sharing)
 and extract it in *src/main/resources*.
 
 To use your own model, first train it using [python code](https://github.com/rmalav15/signature-recognition) (Use its 
