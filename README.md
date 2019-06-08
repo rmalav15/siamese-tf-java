@@ -12,6 +12,10 @@ is integrated here. [[Tensorflow Model]](https://drive.google.com/file/d/1JnUSwW
 **Recognition**<br/>
 <img src='./gifs/recognize.gif' width="600">
 
+## Requirements
+* [Java 8](http://www.oracle.com/technetwork/java/javase/overview/index.html) 
+* [Apache Maven](https://maven.apache.org/)
+
 
 ## Getting Started
 
