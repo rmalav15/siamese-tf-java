@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
+import org.tensorflow.Tensors;
 
 import java.nio.FloatBuffer;
 import java.nio.charset.StandardCharsets;
@@ -16,11 +17,11 @@ import java.nio.file.Path;
 
 @Service
 @Slf4j
-public class WriterRecognitionModelSerivce implements TfModelServingService {
+public class SignatureRecognitionModelSerivce implements TfModelServingService {
 
     private Session session;
 
-    @Value("${tensorflow.model.emb.size:128}")
+    @Value("${tensorflow.model-wo-pre.emb.size:128}")
     private int embSize;
 
     @Override
@@ -29,20 +30,21 @@ public class WriterRecognitionModelSerivce implements TfModelServingService {
         if (!optSession.isPresent()) {
             SavedModelBundle modelBundle = SavedModelBundle.load(path, "serve");
             session = modelBundle.session();
-            log.info("Starting TF session with model from: " + path);
+            log.info("Starting TF session with model-wo-pre from: " + path);
         }
     }
 
     //TODO: add batch process support
     @Override
     public float[] forward(Path imagePath) {
+        byte[][] pathTensor= new byte[1][];  // Remove 1 while adding batch support.
         Preconditions.checkNotNull(session, "Session cant be null");
-        Tensor<String> imagePathTensor = null;
-        imagePathTensor = Tensor.create(imagePath.toString().getBytes(StandardCharsets.UTF_8), String.class);
+        pathTensor[0] = imagePath.toString().getBytes(StandardCharsets.UTF_8);
+        Tensor<String> imagePathTensor = Tensors.create(pathTensor);
         Tensor embTensor = session.runner()
                 .fetch("embeddings")
                 .feed("image_path_tensors", imagePathTensor)
-                .run().get(0);
+                .run().get(0);  //If multiple fetches, it returns List<Tensor<?>>
         FloatBuffer floatBuffer = FloatBuffer.allocate(embSize);
         embTensor.writeTo(floatBuffer);
         return floatBuffer.array();

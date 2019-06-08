@@ -10,8 +10,8 @@ export class RecognizeContainer extends React.Component {
         super(props);
         this.state = {
             image: null,
-            minConfidence: 10.0,
-            topTwoMinGap: 3.0,
+            minConfidence: 7.0,
+            topTwoMinGap: 2.0,
             isTableDisabled: true,
             result: null
         };
@@ -42,6 +42,7 @@ export class RecognizeContainer extends React.Component {
             timeOut: 5000
         };
 
+        // http://localhost:8080 explicitly added for debuggig as 'npm start' runs on port 3000
         const url = 'http://localhost:8080/recog';
         const formData = new FormData();
 
@@ -96,11 +97,11 @@ class RecognizeForm extends React.Component {
                 <Form inverted>
                     <Form.Group widths='equal'>
                         <Form.Input fluid type="file" label='Image' onChange={this.props.onImageChange}/>
-                        <Form.Input fluid type="text" label='Max Distance Allowed'
-                                    placeholder={this.props.minConfidence}
+                        <Form.Input fluid type="text" label='Max Distance Allowed' color='#808080'
+                                    value={this.props.minConfidence}
                                     onChange={this.props.onConfChange}/>
-                        <Form.Input fluid type="text" label='Min Gap Between Top Two'
-                                    placeholder={this.props.topTwoMinGap}
+                        <Form.Input fluid type="text" label='Min Gap Between Top Two' color='#808080'
+                                    value={this.props.topTwoMinGap}
                                     onChange={this.props.onGapChange}/>
                     </Form.Group>
                     {/*<Form.Checkbox label='I agree to the Terms and Conditions'/>*/}

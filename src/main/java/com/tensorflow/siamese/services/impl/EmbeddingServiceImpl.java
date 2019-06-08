@@ -20,10 +20,10 @@ public class EmbeddingServiceImpl implements EmbeddingService {
     @Autowired
     private TfModelServingService tfModelServingService;
 
-    @Value("${tensorflow.model.path:/src/main/resources/model}")
+    @Value("${tensorflow.model.path:src/main/resources/model}")
     private String path;
 
-    @Value("${tensorflow.model.input.size:224}")
+    @Value("${tensorflow.model-wo-pre.input.size:224}")
     private int imageSize;
 
     @Override

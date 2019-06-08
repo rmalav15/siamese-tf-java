@@ -5,7 +5,7 @@ import com.tensorflow.siamese.services.ImageProcessingService;
 import com.tensorflow.siamese.services.TfModelServingService;
 import com.tensorflow.siamese.services.impl.EmbeddingServiceImpl;
 import com.tensorflow.siamese.services.impl.ImageProcessingServiceImpl;
-import com.tensorflow.siamese.services.impl.WriterRecognitionModelSerivce;
+import com.tensorflow.siamese.services.impl.SignatureRecognitionModelSerivce;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +30,8 @@ public class EmbeddingServiceIntegrationTest {
     }
 
     @Test
-    public void whenZeroImageEmbeddingShouldBeZero() {
-        String imageFilePath = "src/main/resources/Images/test.png";
+    public void simpleTestToCheckTFModelInference() {
+        String imageFilePath = "src/main/resources/Images/testR.png";
         List<Double> embeddings = embeddingService.getEmbeddings(Paths.get(imageFilePath));
         System.out.println(embeddings);
     }
@@ -46,7 +46,7 @@ public class EmbeddingServiceIntegrationTest {
 
         @Bean
         public TfModelServingService tfModelServingService() {
-            return new WriterRecognitionModelSerivce();
+            return new SignatureRecognitionModelSerivce();
         }
 
         @Bean

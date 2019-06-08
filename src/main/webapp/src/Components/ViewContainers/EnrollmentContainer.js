@@ -36,6 +36,7 @@ export default class EnrollmentContainer extends React.Component {
             timeOut: 5000
         };
 
+        // http://localhost:8080 explicitly added for debuggig as 'npm start' runs on port 3000
         const url = 'http://localhost:8080/enroll/new';
         const formData = new FormData();
 

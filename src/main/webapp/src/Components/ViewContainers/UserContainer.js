@@ -18,6 +18,7 @@ export class UserContainer extends React.Component {
     }
 
     async getUsers() {
+        // http://localhost:8080 explicitly added for debuggig as 'npm start' runs on port 3000
         const url = 'http://localhost:8080/user/get/all';
         await axios.get(url).then(
             response => {
@@ -32,6 +33,7 @@ export class UserContainer extends React.Component {
     }
 
     removeUser(user) {
+        // http://localhost:8080 explicitly added for debuggig as 'npm start' runs on port 3000
         axios.get('http://localhost:8080/user/delete/' + user.id)
             .then(this.getUsers)
             .catch(function (error) {
