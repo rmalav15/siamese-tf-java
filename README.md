@@ -29,4 +29,4 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-Then just open localhost:8080 in your browser.
+Then just open [localhost:8080](localhost:8080) in your browser.
