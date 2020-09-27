@@ -15,6 +15,7 @@ is integrated here. [[Tensorflow Model]](https://drive.google.com/file/d/1JnUSwW
 ## Requirements
 * [Java 8](http://www.oracle.com/technetwork/java/javase/overview/index.html) 
 * [Apache Maven](https://maven.apache.org/)
+* NodeJS
 
 
 ## Getting Started
@@ -33,4 +34,10 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-Then just open [localhost:8080](localhost:8080) in your browser.
+Start front-end:
+```bash
+cd <webapp folder>
+npm run start
+```
+
+Then just open [localhost:3000](localhost:3000) in your browser.
