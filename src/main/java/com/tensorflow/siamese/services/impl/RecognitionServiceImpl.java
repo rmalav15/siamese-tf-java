@@ -7,7 +7,7 @@ import com.tensorflow.siamese.repositories.UserRepository;
 import com.tensorflow.siamese.services.EmbeddingService;
 import com.tensorflow.siamese.services.RecognitionService;
 import com.tensorflow.siamese.services.RecognitionResult;
-import javafx.util.Pair;
+import com.tensorflow.siamese.util.Pair;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
