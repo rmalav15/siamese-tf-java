@@ -30,7 +30,7 @@ graph_serialize_utils to convert it to pb file). Then set appropriate model path
 
 Then execute following in root directory:
 ```bash
-mvn clean install
+mvn clean install -DskipTests
 mvn spring-boot:run
 ```
 
